@@ -30,6 +30,43 @@ class UserController extends AbstractController
      * @return JsonResponse
      * @throws AlreadySubmittedException
      * @OA\Tag(name="User")
+     * @OA\Response(
+     *     response="200",
+     *     description="Create user",
+     *     @OA\JsonContent(
+     *      type="json",
+     *     example="User Created"
+     *     )
+     * )
+     * @OA\Response(
+     *     response="400",
+     *     description="Bad request",
+     *     @OA\JsonContent(
+     *      type="string",
+     *     )
+     * )
+     * @OA\Parameter(
+     *     name="Authorization",
+     *     in="header",
+     *     required=true,
+     *     description="Authorization",
+     *     @OA\Schema(type="string")
+     * )
+     * @OA\Parameter(
+     *     name="email",
+     *     in="query",
+     *     description="mail of the user",
+     *     required=true,
+     *     @OA\Schema(type="string")
+     * )
+     * @OA\Parameter(
+     *     name="password",
+     *     in="query",
+     *     description="password of the user",
+     *     required=true,
+     *     @OA\Schema(type="string")
+     * )
+     *
      */
     public function registerUser(Request $request, ValidatorInterface $validator, UserPasswordEncoderInterface $passwordEncoder)
     {
@@ -61,20 +98,76 @@ class UserController extends AbstractController
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @return JsonResponse
      * @OA\Tag(name="User")
+     * @OA\Response(
+     *     response="200",
+     *     description="Update user",
+     *     @OA\JsonContent(
+     *      type="json",
+     *     example="{
+    'id': 3,
+    'email': 'admin@admin.fr',
+    'username': 'admin@admin.fr',
+    'roles': [
+    'ROLE_ADMIN',
+    'ROLE_USER'
+    ],
+    'password': '$argon2id$v=19$m=65536,t=4,p=1$TU1CUWhBcURqUWN3RFRwTg$e5MwJpbjFW9cy6ZpmQTV4KgGxGYzk0hCM15YQt78rCM',
+    'salt': null
+}"
+     *     )
+     * )
+     * @OA\Response(
+     *     response="400",
+     *     description="Bad user info",
+     *     @OA\JsonContent(
+     *      type="string",
+     *     )
+     * )
+     * @OA\Parameter(
+     *     name="id",
+     *     in="query",
+     *     description="id of the user",
+     *     @OA\Schema(type="integer"),
+     *     required=true
+     * )
+     * @OA\Parameter(
+     *     name="password",
+     *     in="query",
+     *     description="password of the user",
+     *     @OA\Schema(type="string")
+     * )
+     * @OA\Parameter(
+     *     name="email",
+     *     in="query",
+     *     description="mail of the user",
+     *     @OA\Schema(type="string")
+     * )
+     * @OA\Parameter(
+     *     name="username",
+     *     in="query",
+     *     description="username of the user",
+     *     @OA\Schema(type="string")
+     * )
      */
     public function userUpdate(Request $request, UserRepository $userRepository,UserPasswordEncoderInterface $passwordEncoder)
     {
         $em = $this->getDoctrine()->getManager();
         $item = json_decode($request->getContent(),true);
         $user = $userRepository->findOneBy(['id' => $item['id']]);
+        $response = new JsonResponse();
+        if ($user) {
+            isset($item["email"]) && $user->setEmail($item['email']);
+            isset($item["password"]) && $user->setPassword($passwordEncoder->encodePassword($user,$item["password"]));
 
-        isset($item["email"]) && $user->setEmail($item['email']);
-        isset($item["password"]) && $user->setPassword($passwordEncoder->encodePassword($user,$item["password"]));
-
-        $em->persist($user);
-        $em->flush();
-
-        return JsonResponse::fromJsonString($this->serializeJson($user));
+            $em->persist($user);
+            $em->flush();
+            $response->setContent($this->serializeJson($user));
+            $response->setStatusCode(Response::HTTP_OK);
+        }else {
+            $response->setContent("Bad user info");
+            $response->setStatusCode(Response::HTTP_BAD_REQUEST);
+        }
+        return $response;
     }
 
     /**
@@ -83,6 +176,29 @@ class UserController extends AbstractController
      * @param UserRepository $userRepository
      * @return Response
      * @OA\Tag(name="User")
+     * @OA\Response(
+     *     response="200",
+     *     description="Delete user successfull",
+     *     @OA\JsonContent(
+     *      type="string",
+     *     example="ok"
+     *     )
+     * )
+     * @OA\Response(
+     *     response="400",
+     *     description="Delete user",
+     *     @OA\JsonContent(
+     *      type="string",
+     *     example="ok"
+     *     )
+     * )
+     * @OA\Parameter(
+     *     name="id",
+     *     in="query",
+     *     description="id of the user",
+     *     @OA\Schema(type="integer"),
+     *     required=true
+     * )
      */
     public function userDelete(Request $request, UserRepository $userRepository)
     {
