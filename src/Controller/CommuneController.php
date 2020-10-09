@@ -142,6 +142,13 @@ class CommuneController extends AbstractController
      *     description="The code departement of a commune",
      *     @OA\Schema(type="string")
      * )
+     * @OA\Parameter(
+     *     name="Authorization",
+     *     in="header",
+     *     required=true,
+     *     description="Authorization",
+     *     @OA\Schema(type="string")
+     * )
      *
      * @param Request $request
      * @return Response
@@ -196,7 +203,15 @@ class CommuneController extends AbstractController
      *     name="commune_id",
      *     in="query",
      *     description="The commune_id of a commune",
+     *     required=true,
      *     @OA\Schema(type="integer")
+     * )
+     * @OA\Parameter(
+     *     name="Authorization",
+     *     in="header",
+     *     required=true,
+     *     description="Authorization",
+     *     @OA\Schema(type="string")
      * )
      *
      * @param Request $request
@@ -247,6 +262,20 @@ class CommuneController extends AbstractController
      *     )
      * )
      * @OA\Parameter(
+     *     name="commune_id",
+     *     in="query",
+     *     required=true,
+     *     description="The commune_id of a commune",
+     *     @OA\Schema(type="integer")
+     * )
+     * @OA\Parameter(
+     *     name="Authorization",
+     *     in="header",
+     *     required=true,
+     *     description="Authorization",
+     *     @OA\Schema(type="string")
+     * )
+     * @OA\Parameter(
      *     name="population",
      *     in="query",
      *     description="The population of a commune",
@@ -276,7 +305,6 @@ class CommuneController extends AbstractController
      *     description="The code departement of a commune",
      *     @OA\Schema(type="string")
      * )
-     *
      * @param Request $request
      * @param CommuneRepository $communeRepository
      * @param MediaRepository $mediaRepository
