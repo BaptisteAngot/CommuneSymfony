@@ -83,9 +83,11 @@ class CommuneController extends AbstractController
         $response->setContent($this->serializeCommune($communeRepository->findBy($filter)));
         return $response;
     }
+
     /**
      * @Route("/front/commune",name="frontCommune",methods={"GET"})
      * @param Request $request
+     * @return Response
      */
     public function getCommuneFront(Request $request, CommuneRepository $communeRepository){
         $filter = [];
