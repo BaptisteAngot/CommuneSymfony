@@ -187,7 +187,7 @@ class CommuneController extends AbstractController
      * @Route ("api/admin/commune", name="deleteCommune", methods={"DELETE"})
      * @OA\Response(
      *     response="200",
-     *     description="Create sucessfull commune",
+     *     description="Delete sucessfull commune",
      *     @OA\JsonContent(
      *      type="string",
      *     example="Suppression de la commune"
@@ -260,7 +260,7 @@ class CommuneController extends AbstractController
      * @Route ("api/admin/commune", name="updateCommune", methods={"PATCH"})
      * @OA\Response(
      *     response="200",
-     *     description="Create sucessfull commune",
+     *     description="update sucessfull commune",
      *     @OA\JsonContent(
      *      type="string",
      *     example="Mise à jours de la commune à l'id : 21"
