@@ -29,6 +29,7 @@ class UserController extends AbstractController
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @return JsonResponse
      * @throws AlreadySubmittedException
+     * @OA\Tag(name="User")
      */
     public function registerUser(Request $request, ValidatorInterface $validator, UserPasswordEncoderInterface $passwordEncoder)
     {
