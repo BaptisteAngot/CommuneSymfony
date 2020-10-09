@@ -232,6 +232,51 @@ class CommuneController extends AbstractController
 
     /**
      * @Route ("api/admin/commune", name="updateCommune", methods={"PATCH"})
+     * @OA\Response(
+     *     response="200",
+     *     description="Create sucessfull commune",
+     *     @OA\JsonContent(
+     *      type="string"
+     *     )
+     * )
+     * @OA\Response(
+     *     response="400",
+     *     description="Bad request, need to implement commune_id minimum and other fields you wan't to change",
+     *     @OA\JsonContent(
+     *      type="string"
+     *     )
+     * )
+     * @OA\Parameter(
+     *     name="population",
+     *     in="query",
+     *     description="The population of a commune",
+     *     @OA\Schema(type="integer")
+     * )
+     * @OA\Parameter(
+     *     name="Nom",
+     *     in="query",
+     *     description="The name of a commune",
+     *     @OA\Schema(type="string")
+     * )
+     * @OA\Parameter(
+     *     name="code",
+     *     in="query",
+     *     description="The Code of a commune",
+     *     @OA\Schema(type="string")
+     * )
+     * @OA\Parameter(
+     *     name="codeRegion",
+     *     in="query",
+     *     description="The code region of a commune",
+     *     @OA\Schema(type="string")
+     * )
+     * @OA\Parameter(
+     *     name="codeDepartement",
+     *     in="query",
+     *     description="The code departement of a commune",
+     *     @OA\Schema(type="string")
+     * )
+     *
      * @param Request $request
      * @param CommuneRepository $communeRepository
      * @param MediaRepository $mediaRepository
