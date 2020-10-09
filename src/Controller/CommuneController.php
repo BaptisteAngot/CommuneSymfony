@@ -109,8 +109,16 @@ class CommuneController extends AbstractController
      *     response="200",
      *     description="Create sucessfull commune",
      *     @OA\JsonContent(
-     *      type="string"
-     *     )
+     *      type="string",
+     *     example="Commune created at id : 1"
+     *     ),
+     * )
+     * @OA\Parameter(
+     *     name="Authorization",
+     *     in="header",
+     *     required=true,
+     *     description="Authorization",
+     *     @OA\Schema(type="string")
      * )
      * @OA\Parameter(
      *     name="population",
@@ -140,13 +148,6 @@ class CommuneController extends AbstractController
      *     name="codeDepartement",
      *     in="query",
      *     description="The code departement of a commune",
-     *     @OA\Schema(type="string")
-     * )
-     * @OA\Parameter(
-     *     name="Authorization",
-     *     in="header",
-     *     required=true,
-     *     description="Authorization",
      *     @OA\Schema(type="string")
      * )
      *
@@ -188,14 +189,24 @@ class CommuneController extends AbstractController
      *     response="200",
      *     description="Create sucessfull commune",
      *     @OA\JsonContent(
-     *      type="string"
+     *      type="string",
+     *     example="Suppression de la commune"
      *     )
      * )
      * @OA\Response(
      *     response="400",
      *     description="Bad request, need to implement commune_id",
      *     @OA\JsonContent(
-     *      type="string"
+     *      type="string",
+     *     example="Mauvais format de la requête"
+     *     )
+     * )
+     * @OA\Response(
+     *     response="403",
+     *     description="This commmune doesn't exist",
+     *     @OA\JsonContent(
+     *      type="string",
+     *     example="Cette commune n'existe pas"
      *     )
      * )
      *
@@ -231,7 +242,7 @@ class CommuneController extends AbstractController
             $commune = $communeRepository->find($data['commune_id']);
             if ($commune === null) {
                 $response->setContent("Cette commune n'existe pas");
-                $response->setStatusCode(Response::HTTP_BAD_REQUEST);
+                $response->setStatusCode(Response::HTTP_FORBIDDEN);
             } else {
                 $entityManager->remove($commune);
                 $entityManager->flush();
@@ -251,7 +262,8 @@ class CommuneController extends AbstractController
      *     response="200",
      *     description="Create sucessfull commune",
      *     @OA\JsonContent(
-     *      type="string"
+     *      type="string",
+     *     example="Mise à jours de la commune à l'id : 21"
      *     )
      * )
      * @OA\Response(
@@ -302,8 +314,7 @@ class CommuneController extends AbstractController
      * @OA\Parameter(
      *     name="codeDepartement",
      *     in="query",
-     *     description="The code departement of a commune",
-     *     @OA\Schema(type="string")
+     *     description="The code departement of a commune"
      * )
      * @param Request $request
      * @param CommuneRepository $communeRepository
