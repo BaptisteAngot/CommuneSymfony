@@ -16,6 +16,9 @@ use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Security;
+use OpenApi\Annotations as OA;
 
 class UserController extends AbstractController
 {
@@ -56,6 +59,7 @@ class UserController extends AbstractController
      * @param UserRepository $userRepository
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @return JsonResponse
+     * @OA\Tag(name="User")
      */
     public function userUpdate(Request $request, UserRepository $userRepository,UserPasswordEncoderInterface $passwordEncoder)
     {
@@ -77,6 +81,7 @@ class UserController extends AbstractController
      * @param Request $request
      * @param UserRepository $userRepository
      * @return Response
+     * @OA\Tag(name="User")
      */
     public function userDelete(Request $request, UserRepository $userRepository)
     {
