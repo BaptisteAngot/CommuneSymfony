@@ -28,6 +28,44 @@ class CommuneController extends AbstractController
      * @param CommuneRepository $communeRepository
      * @return JsonResponse
      * @OA\Tag(name="Commune")
+     * @OA\Response(
+     *     response="200",
+     *     description="Returns the communes in database",
+     *     @OA\JsonContent(
+     *      type="array",
+     *      @OA\Items(ref=@Model(type=Commune::class, groups={"full"}))
+     *     )
+     * )
+     * @OA\Parameter(
+     *     name="population",
+     *     in="query",
+     *     description="The population of a commune",
+     *     @OA\Schema(type="integer")
+     * )
+     * @OA\Parameter(
+     *     name="Nom",
+     *     in="query",
+     *     description="The name of a commune",
+     *     @OA\Schema(type="string")
+     * )
+     * @OA\Parameter(
+     *     name="code",
+     *     in="query",
+     *     description="The Code of a commune",
+     *     @OA\Schema(type="string")
+     * )
+     * @OA\Parameter(
+     *     name="codeRegion",
+     *     in="query",
+     *     description="The code region of a commune",
+     *     @OA\Schema(type="string")
+     * )
+     * @OA\Parameter(
+     *     name="codeDepartement",
+     *     in="query",
+     *     description="The code departement of a commune",
+     *     @OA\Schema(type="string")
+     * )
      */
     public function getCommune(Request $request, CommuneRepository $communeRepository)
     {
