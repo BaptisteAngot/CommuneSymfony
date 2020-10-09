@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CommuneController!{% endblock %}
+
+{% block body %}
+    <div class="container">
+        Voici toutes les communes : <br/><br/>
+        {% for commune in communes %}
+            <div class="row">
+                <div class="col-sm">
+                    Commune : {{ commune.nom }}
+                </div>
+                <div class="col-sm">
+                    Population de  {{ commune.population | number_format(0, ',', ' ') }} habitants
+                </div>
+                <div class="col-sm">
+                    {% for image in commune.medias %}
+                        <img width="100" height="100" src="{{ image.url }}" >
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
